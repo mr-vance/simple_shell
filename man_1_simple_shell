@@ -1,56 +1,146 @@
-.TH HSH 1
-.SH NAME
-hsh \- Holberton Shell	
-.SH SYNOPSIS
-.B hsh
-[command] [options ...]
-.SH COPYRIGHT
-hsh \- is a holberton school first trimester project
-.SH DESCRIPTION
-.B hsh
-is a shell command interpreter that executes command read from the standard input or from file.
-.B hsh
-is intend to be a clone of the standard command interpreter of 
-.B Unix
-and 
-.B Unix-like
-system.
-.SH OPTIONS
-A  simple command is a sequence of optional variable assignments followed by blank-separated words and redirections, 
-and terminated by a control operator.  The first word specifies the command to be
-executed, and is passed as argument zero.  The remaining words are passed as arguments to the invoked command.
-.PP
-The return value of a simple command is its exit status, or 128+n if the command is terminated by signal n.
-.SS
-Piplines
-A pipeline is a sequence of one or more commands separated by one of the control operators | or |&.  The format for a pipeline is:
-.PP
-[command [..ARGS]] [| - |&] [command2 [..ARGS]]
-.PP
-The standard output of command is connected via a pipe to the standard input of command2.  This connection is performed before any redirections specified by the command (see REDIRECTION below).   If
-|&  is  used,  command's standard error, in addition to its standard output, is connected to command2's standard input through the pipe; it is shorthand for 2>&1 |.  This implicit redirection of the
-standard error to the standard output is performed after any redirections specified by the command.
-.SS Lists
+.\" Manpage for simple_shell
 
-A list is a sequence of one or more pipelines separated by one of the operators ;, &, &&, or ||, and optionally terminated by one of ;, &, or <newline>.
-Of these list operators, && and || have equal precedence, followed by ; and &, which have equal precedence.
-A sequence of one or more newlines may appear in a list instead of a semicolon to delimit commands.
-.PP
-If  a command is terminated by the control operator &, the shell executes the command in the background in a subshell.  The shell does not wait for the command to finish, and the return status is 0.
-Commands separated by a ; are executed sequentially; the shell waits for each command to terminate in turn.  The return status is the exit status of the last command executed.
-AND and OR lists are sequences of one or more pipelines separated by the && and || control operators, respectively.  AND and OR lists are executed with left associativity.  An AND list has the form
-.PP
-command1 && command2
-.PP
-command2 is executed if, and only if, command1 returns an exit status of zero.
-.PP
-An OR list has the form:
-.PP
-command1 || command2
-.PP
-command2 is executed if and only if command1 returns a non-zero exit status.  The return status of AND and OR lists is the exit status of the last command executed in the list.
-.SH AUTHORS
-Sebri Issam \- Holberton School Software Engineer Student
-.SH VERSIONS
-.B hsh
-V1.0.0
+.\" Contact zarateguarinnicolasandres@gmail.com to correct errors or typos
+
+.TH simple_shell "04-10-20" "simple_shell"
+
+.SH NAME
+
+\fBsimple_shell\fR - Simulates a Simple UNIX shell to handle multiple commands
+
+.SH SYNOPSIS
+
+\fB./Hell_Shell\fR [OPTIONS] [COMMAND_STRING | file]
+Holberton School Trimester 1
+
+.SH DESCRIPTION
+
+This program simulates a command interpreter based in Unix and GNU/LINUX with its basic commands.
+through a terminal emulator and some executable instructions(shell scripts) the user can interact with this \fBsimple_shell.\fR
+This simple_shell is not supossed to be an exact imitation of the original Unix Shell. This doesn't cover all of the instructions the original does.
+
+.SH OVERVIEW
+
+This program is made to complete the team project 0x16. C - Simple Shell at Holberton School. A README.md file is provided to give a better documentation of this program
+
+.SH INVOCATION
+.br
+.\&
+.RS
+\&> ./Hell_Shell
+
+The prompt 'Hell_Shell>> ' will appear on terminal. You could enter commands following the prompt. You can't handle multiple commands using ';' '&&' '||' specifiers. Once you have entered the commands you execute the commands finishing by pressing 'ENTER' key.
+
+
+.SH FEATURES
+
+* This program displays a prompt and wait for the user to type a command. A command line always ends with a new line (when user push ENTER key).
+
+* The prompt is displayed again each time a command has been executed.
+
+* When the user enters exit, Hell shell will end and returns the status 0.
+
+* When the user enters exit [status], Hell Shell will end and return the inputed status, where status is a value from 0 to 255.
+
+* The user could stop the program using Ctrl+D (end of file).
+
+* The shell handles command lines with arguments and pathways.
+
+* The program does not quit when the user inputs ^C (Ctrl+C).
+
+* The program prints the current enviroment when the user types env.
+
+* This program executes the most common shell commands as ls, grep, find, pwd, rm, cp, mv, exit, env, history, etc... with arguments.
+
+* If an executable cannot be found, It prints an error message and display the prompt again.
+
+* This Shell supports commentaries using #.
+
+* The Hell Shell does NOT support wildcard characters such as ls *.dat in parameters (or commands). 
+
+* This shell does NOT support pipes |, shell logical operators as && or ||, neither commands separator ;.
+
+
+.SH EXAMPLES - BUILDING COMMANDS
+
+Here are shown some commands using this shell. Note its respective output.
+.br
+.\&
+.RS
+.TP
+.TP
+
+\fBls [OPTIONS..]\fR  - Lists the the files and directories in the current directory
+
+.TP
+.LP
+Hell_Shell>> ls
+.LP
+.TP
+.LP
+AUTHORS  Hell_Shell  README.md	auxiliar_functions.c  create_child.c  execute.c  free_mem.c  generateAUTHORS  man_1_simple_shell  shell.h  shell_init.c  tokening.c
+.LP
+.TP
+.br
+
+\fBecho [OPTIONS..] string..\fR - displays a line of text
+
+.TP
+.LP
+Hell_Shell>> echo Hello Wold
+.LP
+.TP
+.LP
+Hello World
+.LP
+.TP
+
+\fBpwd [OPTIONS..]\fR - Prints the working directory
+
+.TP
+.br
+.LP
+Hell_Shell>> pwd
+.LP
+.TP
+.LP
+/home/vagrant/HOLBERTON/simple_shell
+.LP
+.TP
+.br
+
+\fBCtrl + D\FR - quits the program
+
+.TP
+.LP
+Hell_Shell>> ^D
+.LP
+.TP
+.LP
+vagrant@vagrant-ubuntu-trusty-64:~/HOLBERTON/simple_shell$ 
+.LP
+.br
+
+.TP
+\fBexit\FR - exits the shell
+.TP
+.LP
+Hell_Shell>> exit
+.LP
+.TP
+.LP
+vagrant@vagrant-ubuntu-trusty-64:~/HOLBERTON/simple_shell$
+.LP
+
+.SH BUGS
+
+No known bugs at this time.
+
+.SH AUTHOR(S)
+
+Nicolas Zarate - 1673@holbertonschool.com
+
+.TP
+
+Robinson Montes - robinson.montes@holbertonschool.com
+
